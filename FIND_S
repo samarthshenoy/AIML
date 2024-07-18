@@ -1,0 +1,34 @@
+import pandas as pd
+
+# Load the CSV file
+df = pd.read_csv("/enjoysport.csv")
+
+# Get the number of columns
+column_length = df.shape[1]
+
+# Initialize the hypothesis with '0'
+h = ['0'] * (column_length - 1)
+
+# Lists to hold positive and negative examples
+hp = []
+hn = []
+
+# Separate positive and negative examples
+for training_example in df.values:
+    if training_example[-1] != 'no':
+        hp.append(list(training_example))
+    else:
+        hn.append(list(training_example))
+
+# Update the hypothesis based on positive examples
+for i in range(len(hp)):
+    for j in range(len(h)):
+        if h[j] == '0':
+            h[j] = hp[i][j]
+        elif h[j] != hp[i][j]:
+            h[j] = '?'
+
+# Output the results
+print(f'Positive examples:\n{hp}')
+print(f'Negative examples:\n{hn}')
+print(f'Maximally specific hypothesis:\n{h}')
